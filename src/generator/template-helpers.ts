@@ -160,7 +160,7 @@ export const makeHelpers = ({
     const fieldOptional = (field: ParsedField, forceOptional = false) =>`
         ${unless(
             field.isRequired && !forceOptional,
-            '@IsOptional',
+            '@IsOptional()',
         )}\n`;
   const fieldToDtoProp = (
     field: ParsedField,

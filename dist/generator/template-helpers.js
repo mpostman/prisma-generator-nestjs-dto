@@ -89,7 +89,7 @@ const makeHelpers = ({ connectDtoPrefix, createDtoPrefix, updateDtoPrefix, dtoSu
         return '';
     };
     const fieldOptional = (field, forceOptional = false) => `
-        ${(0, exports.unless)(field.isRequired && !forceOptional, '@IsOptional')}\n`;
+        ${(0, exports.unless)(field.isRequired && !forceOptional, '@IsOptional()')}\n`;
     const fieldToDtoProp = (field, useInputTypes = false, forceOptional = false) => `${(0, exports.when)(field.kind === 'enum', `@ApiProperty({ enum: ${fieldType(field, useInputTypes)}})\n`)}
     ${(0, exports.when)(field.kind !== 'enum', `@ApiProperty()\n`)}${fieldValidator(field)}${fieldOptional(field, forceOptional)}${field.name}${(0, exports.unless)(field.isRequired && !forceOptional, '?')}: ${fieldType(field, useInputTypes)};`;
     const fieldsToDtoProps = (fields, useInputTypes = false, forceOptional = false) => `${(0, exports.each)(fields, (field) => fieldToDtoProp(field, useInputTypes, forceOptional), '\n')}`;
