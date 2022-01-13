@@ -163,7 +163,7 @@ export const makeHelpers = ({
     if (field.kind === 'object') {
       return `{ type: () => ${when(field.isList, '[')}${entityName(
         field.type,
-      )}$${when(field.isList, ']')} }`;
+      )}${when(field.isList, ']')} }`;
     }
     return '';
   };

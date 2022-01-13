@@ -89,7 +89,7 @@ const makeHelpers = ({ connectDtoPrefix, createDtoPrefix, updateDtoPrefix, dtoSu
                             : ''}\n`;
     const fieldApiPropery = (field) => {
         if (field.kind === 'object') {
-            return `{ type: () => ${(0, exports.when)(field.isList, '[')}${entityName(field.type)}$${(0, exports.when)(field.isList, ']')} }`;
+            return `{ type: () => ${(0, exports.when)(field.isList, '[')}${entityName(field.type)}${(0, exports.when)(field.isList, ']')} }`;
         }
         return '';
     };
