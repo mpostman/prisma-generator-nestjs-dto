@@ -14,6 +14,7 @@ export const generateEntity = ({
 ${t.importStatements(imports)}
 
 ${t.if(apiExtraModels.length, t.apiExtraModels(apiExtraModels))}
+${t.classValidatorImports(fields)}
 export class ${t.entityName(model.name)} {
   ${t.fieldsToEntityProps(fields)}
 }

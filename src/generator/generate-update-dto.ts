@@ -23,6 +23,7 @@ ${t.each(
 )}
 
 ${t.if(apiExtraModels.length, t.apiExtraModels(apiExtraModels))}
+${t.classValidatorImports(fields)}
 export class ${t.updateDtoName(model.name)} {
   ${t.fieldsToDtoProps(fields, true)}
 }

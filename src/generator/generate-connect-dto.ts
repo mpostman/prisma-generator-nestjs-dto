@@ -10,6 +10,7 @@ export const generateConnectDto = ({
   templateHelpers: t,
 }: GenerateConnectDtoParam) => {
   const template = `
+  ${t.classValidatorImports(fields)}
   export class ${t.connectDtoName(model.name)} {
     ${t.fieldsToDtoProps(fields, true)}
   }

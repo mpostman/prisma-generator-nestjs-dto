@@ -142,6 +142,26 @@ export const makeHelpers = ({
         : entityName(field.type)
     }${when(field.isList, '[]')}`;
 
+    const fieldValidator = (field: ParsedField) => `${field.type === 'String' 
+        ? '@IsString()' 
+        : field.type === 'Boolean' ? '@IsBoolean()'
+        : field.type === 'Number' ? '@IsNumber()'
+        : field.type === 'Int' ? '@IsInt()'
+        : field.type === 'Bigint' ? '@IsNumber()'
+        : field.type === 'Date' ? '@IsDateString()'
+        : ''}\n`;
+    
+    const fieldApiPropery = (field: ParsedField) => {
+        if (field.kind === 'object') {
+            return `{ type: () => ${when(field.isList, '[')}${entityName(field.type)}$${when(field.isList, ']')} }`;
+        } 
+        return '';
+    };
+    const fieldOptional = (field: ParsedField, forceOptional = false) =>`
+        ${unless(
+            field.isRequired && !forceOptional,
+            '@IsOptional',
+        )}\n`;
   const fieldToDtoProp = (
     field: ParsedField,
     useInputTypes = false,
@@ -150,7 +170,11 @@ export const makeHelpers = ({
     `${when(
       field.kind === 'enum',
       `@ApiProperty({ enum: ${fieldType(field, useInputTypes)}})\n`,
-    )}${field.name}${unless(
+    )}
+    ${when(
+        field.kind !== 'enum',
+        `@ApiProperty()\n`,
+      )}${fieldValidator(field)}${fieldOptional(field,forceOptional)}${field.name}${unless(
       field.isRequired && !forceOptional,
       '?',
     )}: ${fieldType(field, useInputTypes)};`;
@@ -167,7 +191,7 @@ export const makeHelpers = ({
     )}`;
 
   const fieldToEntityProp = (field: ParsedField) =>
-    `${field.name}${unless(field.isRequired, '?')}: ${fieldType(field)} ${when(
+    `@ApiProperty(${fieldApiPropery(field)})\n${fieldValidator(field)}${fieldOptional(field)}${field.name}${unless(field.isRequired, '?')}: ${fieldType(field)} ${when(
       field.isNullable,
       ' | null',
     )};`;
@@ -178,6 +202,38 @@ export const makeHelpers = ({
   const apiExtraModels = (names: string[]) =>
     `@ApiExtraModels(${names.map(entityName)})`;
 
+    const classValidatorImports = (fields: ParsedField[]) => {
+        const forImport: any = [];
+        for (const field of fields) {
+            if (field.type === 'String' && !forImport.includes('IsString'))
+                forImport.push('IsString')
+
+            if (field.type === 'Boolean' && !forImport.includes('IsBoolean'))
+                forImport.push('IsBoolean')
+
+            if (field.type === 'Int' && !forImport.includes('IsInt'))
+                forImport.push('IsInt')
+
+            if (field.type === 'Number' && !forImport.includes('IsNumber'))
+                forImport.push('IsNumber')
+
+            if (field.type === 'Bigint' && !forImport.includes('IsNumber'))
+                forImport.push('IsNumber')
+
+            if (field.type === 'Date' && !forImport.includes('IsDateString'))
+                forImport.push('IsDateString')
+
+            if (!field.isRequired && !forImport.includes('IsOptional'))
+                forImport.push('IsOptional')
+        }
+        const distinct = [...new Set(forImport)];
+        if (distinct.length)
+            return `import { ApiProperty } from '@nestjs/swagger';\nimport { ${distinct.join(', ')} } from 'class-validator';`;
+        else if (fields.length)
+            return `import { ApiProperty } from '@nestjs/swagger';`;
+        else
+            return '';
+    }
   return {
     config: {
       connectDtoPrefix,
@@ -211,6 +267,7 @@ export const makeHelpers = ({
     transformFileNameCase,
     unless,
     when,
+    classValidatorImports,
   };
 };
 
