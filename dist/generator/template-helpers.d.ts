@@ -1,0 +1,55 @@
+import { ImportStatementParams, ParsedField } from './types';
+export declare const scalarToTS: (scalar: string, useInputTypes?: boolean) => string;
+export declare const echo: (input: string) => string;
+export declare const when: (condition: any, thenTemplate: string, elseTemplate?: string) => string;
+export declare const unless: (condition: any, thenTemplate: string, elseTemplate?: string) => string;
+export declare const each: <T = any>(arr: T[], fn: (item: T) => string, joinWith?: string) => string;
+export declare const importStatement: (input: ImportStatementParams) => string;
+export declare const importStatements: (items: ImportStatementParams[]) => string;
+interface MakeHelpersParam {
+    connectDtoPrefix: string;
+    createDtoPrefix: string;
+    updateDtoPrefix: string;
+    dtoSuffix: string;
+    entityPrefix: string;
+    entitySuffix: string;
+    transformClassNameCase?: (item: string) => string;
+    transformFileNameCase?: (item: string) => string;
+}
+export declare const makeHelpers: ({ connectDtoPrefix, createDtoPrefix, updateDtoPrefix, dtoSuffix, entityPrefix, entitySuffix, transformClassNameCase, transformFileNameCase, }: MakeHelpersParam) => {
+    config: {
+        connectDtoPrefix: string;
+        createDtoPrefix: string;
+        updateDtoPrefix: string;
+        dtoSuffix: string;
+        entityPrefix: string;
+        entitySuffix: string;
+    };
+    apiExtraModels: (names: string[]) => string;
+    entityName: (name: string) => string;
+    connectDtoName: (name: string) => string;
+    createDtoName: (name: string) => string;
+    updateDtoName: (name: string) => string;
+    connectDtoFilename: (name: string, withExtension?: boolean) => string;
+    createDtoFilename: (name: string, withExtension?: boolean) => string;
+    updateDtoFilename: (name: string, withExtension?: boolean) => string;
+    entityFilename: (name: string, withExtension?: boolean) => string;
+    each: <T = any>(arr: T[], fn: (item: T) => string, joinWith?: string) => string;
+    echo: (input: string) => string;
+    fieldsToDtoProps: (fields: ParsedField[], useInputTypes?: boolean, forceOptional?: boolean) => string;
+    fieldToDtoProp: (field: ParsedField, useInputTypes?: boolean, forceOptional?: boolean) => string;
+    fieldToEntityProp: (field: ParsedField) => string;
+    fieldsToEntityProps: (fields: ParsedField[]) => string;
+    fieldType: (field: ParsedField, toInputType?: boolean) => string;
+    for: <T = any>(arr: T[], fn: (item: T) => string, joinWith?: string) => string;
+    if: (condition: any, thenTemplate: string, elseTemplate?: string) => string;
+    importStatement: (input: ImportStatementParams) => string;
+    importStatements: (items: ImportStatementParams[]) => string;
+    transformClassNameCase: (item: string) => string;
+    transformFileNameCase: (item: string) => string;
+    unless: (condition: any, thenTemplate: string, elseTemplate?: string) => string;
+    when: (condition: any, thenTemplate: string, elseTemplate?: string) => string;
+    classValidatorImports: (fields: ParsedField[]) => string;
+};
+export declare type TemplateHelpers = ReturnType<typeof makeHelpers>;
+export {};

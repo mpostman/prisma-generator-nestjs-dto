@@ -1,0 +1,13 @@
+export declare const DTO_IGNORE_MODEL: RegExp;
+export declare const DTO_READ_ONLY: RegExp;
+export declare const DTO_ENTITY_HIDDEN: RegExp;
+export declare const DTO_CREATE_OPTIONAL: RegExp;
+export declare const DTO_UPDATE_OPTIONAL: RegExp;
+export declare const DTO_RELATION_REQUIRED: RegExp;
+export declare const DTO_RELATION_CAN_CRAEATE_ON_CREATE: RegExp;
+export declare const DTO_RELATION_CAN_CONNECT_ON_CREATE: RegExp;
+export declare const DTO_RELATION_CAN_CRAEATE_ON_UPDATE: RegExp;
+export declare const DTO_RELATION_CAN_CONNECT_ON_UPDATE: RegExp;
+export declare const DTO_RELATION_MODIFIERS: RegExp[];
+export declare const DTO_RELATION_MODIFIERS_ON_CREATE: RegExp[];
+export declare const DTO_RELATION_MODIFIERS_ON_UPDATE: RegExp[];
