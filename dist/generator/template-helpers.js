@@ -76,11 +76,16 @@ const makeHelpers = ({ connectDtoPrefix, createDtoPrefix, updateDtoPrefix, dtoSu
             : entityName(field.type)}${(0, exports.when)(field.isList, '[]')}`;
     const fieldValidator = (field) => `${field.type === 'String'
         ? '@IsString()'
-        : field.type === 'Boolean' ? '@IsBoolean()'
-            : field.type === 'Number' ? '@IsNumber()'
-                : field.type === 'Int' ? '@IsInt()'
-                    : field.type === 'Bigint' ? '@IsNumber()'
-                        : field.type === 'Date' ? '@IsDateString()'
+        : field.type === 'Boolean'
+            ? '@IsBoolean()'
+            : field.type === 'Number'
+                ? '@IsNumber()'
+                : field.type === 'Int'
+                    ? '@IsInt()'
+                    : field.type === 'Bigint'
+                        ? '@IsNumber()'
+                        : field.type === 'Date'
+                            ? '@IsDateString()'
                             : ''}\n`;
     const fieldApiPropery = (field) => {
         if (field.kind === 'object') {
