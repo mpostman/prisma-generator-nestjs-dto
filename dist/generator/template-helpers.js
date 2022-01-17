@@ -86,7 +86,9 @@ const makeHelpers = ({ connectDtoPrefix, createDtoPrefix, updateDtoPrefix, dtoSu
                         ? '@IsNumber()'
                         : field.type === 'Date'
                             ? '@IsDateString()'
-                            : ''}\n`;
+                            : field.type === 'DateTime'
+                                ? '@IsDateString()'
+                                : ''}\n`;
     const fieldApiPropery = (field) => {
         if (field.kind === 'object') {
             return `{ type: () => ${(0, exports.when)(field.isList, '[')}${entityName(field.type)}${(0, exports.when)(field.isList, ']')} }`;
@@ -115,6 +117,8 @@ const makeHelpers = ({ connectDtoPrefix, createDtoPrefix, updateDtoPrefix, dtoSu
             if (field.type === 'Bigint' && !forImport.includes('IsNumber'))
                 forImport.push('IsNumber');
             if (field.type === 'Date' && !forImport.includes('IsDateString'))
+                forImport.push('IsDateString');
+            if (field.type === 'DateTime' && !forImport.includes('IsDateString'))
                 forImport.push('IsDateString');
             if (!field.isRequired && !forImport.includes('IsOptional'))
                 forImport.push('IsOptional');

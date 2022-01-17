@@ -156,6 +156,8 @@ export const makeHelpers = ({
         ? '@IsNumber()'
         : field.type === 'Date'
         ? '@IsDateString()'
+        : field.type === 'DateTime'
+        ? '@IsDateString()'
         : ''
     }\n`;
 
@@ -229,6 +231,9 @@ export const makeHelpers = ({
         forImport.push('IsNumber');
 
       if (field.type === 'Date' && !forImport.includes('IsDateString'))
+        forImport.push('IsDateString');
+
+      if (field.type === 'DateTime' && !forImport.includes('IsDateString'))
         forImport.push('IsDateString');
 
       if (!field.isRequired && !forImport.includes('IsOptional'))
